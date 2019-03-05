@@ -6,17 +6,22 @@ using System.Threading.Tasks;
 
 namespace CodeBlogFitness.BL.Model
 {
+    /// <summary>
+    /// Пол
+    /// </summary>
+    [Serializable]
+    
     public class Gender
     {
         /// <summary>
-        /// Пол.
+        /// Название
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Название.
+        /// Создать новый пол
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Имя пола</param>
         public Gender(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -24,6 +29,11 @@ namespace CodeBlogFitness.BL.Model
                 throw new ArgumentNullException("Имя пола не может быть пустым или null", nameof(name));
             }
             Name = name;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

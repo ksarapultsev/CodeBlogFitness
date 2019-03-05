@@ -9,33 +9,43 @@ namespace CodeBlogFitness.BL.Model
     /// <summary>
     /// Пользователь
     /// </summary>
- 
-    class User
+ [Serializable]
+  public  class User
     {
+        #region Свойства
         /// <summary>
         /// Имя.
         /// </summary>
         public string Name { get; }
+
         /// <summary>
         /// Пол
         /// </summary>
         public Gender Gender { get; }
+
         /// <summary>
-        /// День рождения
+        /// Дата рождения
         /// </summary>
         public DateTime BirthDate { get; }
 
         /// <summary>
         /// Вес
         /// </summary>
-
         public double Weight { get; set; }
+
         /// <summary>
         /// Рост
         /// </summary>
-
         public double Height { get; set; }
-
+        #endregion
+        /// <summary>
+        /// Создать нового пользователя
+        /// </summary>
+        /// <param name="name">Имя.</param>
+        /// <param name="gender">Пол.</param>
+        /// <param name="birthDate">Дата рождения</param>
+        /// <param name="weight">Вес. </param>
+        /// <param name="height">Рост. </param>
         public User(string name, 
                     Gender gender, 
                     DateTime birthDate, 
@@ -50,21 +60,21 @@ namespace CodeBlogFitness.BL.Model
 
             if (gender == null)
             {
-                throw new ArgumentNullException("пол не может быть Null", nameof(gender));
+                throw new ArgumentNullException("Пол не может быть null", nameof(gender));
             }
-            if(birthDate <DateTime.Parse("01.01.1900") && birthDate>= DateTime.Now)
+            if(birthDate <DateTime.Parse("01.01.1900") || birthDate>= DateTime.Now)
             {
-                throw new ArgumentNullException("дата не корректа", nameof(birthDate));
+                throw new ArgumentNullException("Некорректная дата рождения", nameof(birthDate));
             }
 
             if (weight <=0)
             {
-                throw new ArgumentNullException("Вес меньше нуля", nameof(weight));
+                throw new ArgumentNullException("Вес не может быть меньше или равно нулю ", nameof(weight));
             }
 
             if (height <= 0)
             {
-                throw new ArgumentNullException("Рост меньше нуля", nameof(height));
+                throw new ArgumentNullException("Рост не может быть меньше либо равен нулю", nameof(height));
             }
 
             #endregion

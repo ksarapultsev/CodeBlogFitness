@@ -17,7 +17,8 @@ namespace CodeBlogFitness.BL.Controller
             // TODO: Проверка
             var gender = new Gender(genderName);
             var user = new User(userName, gender, birthDay, weight, heigth);
-            User = user ?? throw new ArgumentNullException("Ошибка");
+            User = user ?? throw new ArgumentNullException("Ошибка, пользователь не может равен null");
+
         }
 
         /// <summary>

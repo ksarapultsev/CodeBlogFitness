@@ -12,8 +12,8 @@ namespace CodeBlogFitness.CMD
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Привет");
-            Console.WriteLine("Введите имя пользователя");
+            Console.WriteLine("Вас приветствует приложение CodeBlogFitness");
+            Console.Write("Введите имя пользователя: ");
 
             var name = Console.ReadLine();
 

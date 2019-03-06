@@ -11,16 +11,62 @@ namespace CodeBlogFitness.BL.Controller
 {
    public class UserController
     {
-        public User User { get; }
-        public UserController(string userName, string genderName, DateTime birthDay, double weight, double heigth )
+        /// <summary>
+        /// Пользователь приложения
+        /// </summary>
+        public List<User> Users { get; }
+        public User CurrentUser { get; }
+        public bool IsNewUser { get; } = false;
+        public UserController(string userName)
         {
-            // TODO: Проверка
-            var gender = new Gender(genderName);
-            var user = new User(userName, gender, birthDay, weight, heigth);
-            User = user ?? throw new ArgumentNullException("Ошибка, пользователь не может равен null");
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                throw new ArgumentNullException("Имя пользователя не может быть пустым", nameof(userName));
+            }
 
+            Users = GetUsersData();
+
+            CurrentUser = Users.SingleOrDefault(u => u.Name == userName);
+
+            if (CurrentUser == null)
+            {
+                CurrentUser = new User(userName);
+                Users.Add(CurrentUser);
+                IsNewUser = true;
+                Save();
+            }
+          
+        }
+        /// <summary>
+        /// Получить сохраненный список пользователей.
+        /// </summary>
+        /// <returns></returns>
+        private List<User> GetUsersData()
+        {
+            var formatter = new BinaryFormatter();
+            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
+            {
+                if (formatter.Deserialize(fs) is List<User> users)
+                {
+                    return users;
+                }
+                else
+                {
+                    return new List<User>();
+                }
+            }            
         }
 
+        public void SetNewUserData(string genderName, DateTime birthDate, double weight = 1, double height = 1)
+        {
+            // Проверка
+            CurrentUser.Gender = new Gender(genderName);
+            CurrentUser.BirthDate = birthDate;
+            CurrentUser.Weight = weight;
+            CurrentUser.Height = height;
+            Save();
+            
+        }
         /// <summary>
         /// Сохранить данные пользователя
         /// </summary>
@@ -29,7 +75,7 @@ namespace CodeBlogFitness.BL.Controller
             var formatter = new BinaryFormatter();
             using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
             {
-                formatter.Serialize(fs, User);
+                formatter.Serialize(fs, Users);
             }
 
         }
@@ -37,20 +83,6 @@ namespace CodeBlogFitness.BL.Controller
         /// Получить данные пользователя
         /// </summary>
         /// <returns></returns>
-        public UserController()
-        {
-            var formatter = new BinaryFormatter();
-            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                if( formatter.Deserialize(fs) is User user)
-                {
-                    User = user;
-                }
-                 
-                //TODO: Что делать если пользователя не прочитали?
-                
-
-            }
-        }
+       
     }
 }

@@ -5,14 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CodeBlogFitness.BL.Controller;
+using System.Globalization;
+using System.Resources;
 
 namespace CodeBlogFitness.CMD
 {
     class Program
     {
         static void Main(string[] args)
-        {        
-            Console.WriteLine("Вас приветствует приложение CodeBlogFitness");
+        {
+            var culture = CultureInfo.CreateSpecificCulture("en-us");
+            var resourceManager = new ResourceManager("CodeBlogFitness.CMD.Languages.Messages", typeof(Program).Assembly);
+            Console.WriteLine(resourceManager.GetString("Hello", culture));
+            Console.WriteLine(resourceManager.GetString("EnterName", culture));
+            Console.WriteLine(resourceManager.GetString("EnterName"));
+
+
             Console.Write("Введите имя пользователя: ");
 
             var name = Console.ReadLine();

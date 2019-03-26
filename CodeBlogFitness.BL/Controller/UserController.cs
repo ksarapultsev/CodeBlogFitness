@@ -11,7 +11,7 @@ namespace CodeBlogFitness.BL.Controller
 {
    public class UserController : ControllerBase
     {
-        private const string USERS_FILE_NAME = "users.dat";
+       
         /// <summary>
         /// Пользователь приложения
         /// </summary>
@@ -33,10 +33,8 @@ namespace CodeBlogFitness.BL.Controller
             {
                 CurrentUser = new User(userName);
                 Users.Add(CurrentUser);
-                IsNewUser = true;
-                Save();
-            }
-          
+                IsNewUser = true;                
+            }          
         }
         /// <summary>
         /// Получить сохраненный список пользователей.
@@ -44,8 +42,10 @@ namespace CodeBlogFitness.BL.Controller
         /// <returns></returns>
         private List<User> GetUsersData()
         {
-           return Load<List<User>>(USERS_FILE_NAME) ?? new List<User>();
+            return Load<User>() ?? new List<User>();
         }
+
+        
 
         public void SetNewUserData(string genderName, DateTime birthDate, double weight = 1, double height = 1)
         {
@@ -62,8 +62,7 @@ namespace CodeBlogFitness.BL.Controller
         /// </summary>
         public void Save()
         {
-            Save(USERS_FILE_NAME, Users);
-
+           Save(Users);
         }
     }
 }

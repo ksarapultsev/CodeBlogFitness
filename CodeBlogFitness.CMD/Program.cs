@@ -13,7 +13,7 @@ namespace CodeBlogFitness.CMD
     class Program
     {
         static void Main(string[] args)
-        {
+        {            
             var culture = CultureInfo.CreateSpecificCulture("en-us");
             var resourceManager = new ResourceManager("CodeBlogFitness.CMD.Languages.Messages", typeof(Program).Assembly);
             Console.WriteLine(resourceManager.GetString("Hello", culture));
@@ -71,16 +71,11 @@ namespace CodeBlogFitness.CMD
                             Console.WriteLine($"\t{item.Activity} c {item.Start.ToShortTimeString()} до {item.Finish.ToShortTimeString()}");
                         }
                         break;
-
                     case ConsoleKey.Q:
                         Environment.Exit(0);
                         break;
-
                 }
-
-
-
-
+                                             
                 Console.ReadKey();
             }
         }
@@ -92,8 +87,8 @@ namespace CodeBlogFitness.CMD
             var energy = ParseDouble("расход энергии в минуту");            
             var begin = ParseDateTime("начало упражнения");
             var end = ParseDateTime("окончание упражнения");
-            var activity = new Activity(name, energy);
 
+            var activity = new Activity(name, energy);
             return  (begin, end, activity);
         }
 
@@ -101,6 +96,7 @@ namespace CodeBlogFitness.CMD
         {
             Console.Write("Введите имя продукта:");
             var food = Console.ReadLine();
+
             var calories = ParseDouble("калорийность");
             var prots = ParseDouble("белки");
             var fats = ParseDouble("жиры");
@@ -146,6 +142,9 @@ namespace CodeBlogFitness.CMD
                     Console.WriteLine($"Неверный формат поля {name}");
                 }
             }
+
+
+            
 
         }
     }

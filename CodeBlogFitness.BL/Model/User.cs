@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeBlogFitness.BL.Model
 {
@@ -12,21 +9,23 @@ namespace CodeBlogFitness.BL.Model
  [Serializable]
   public  class User
     {
+        public int Id { get; set; }
         #region Свойства
         /// <summary>
         /// Имя.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Пол
         /// </summary>
-        public Gender Gender { get; set; }
+        public int? GenderId {get; set;}
+        public virtual Gender Gender { get; set; }
 
         /// <summary>
         /// Дата рождения
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Вес
@@ -37,6 +36,9 @@ namespace CodeBlogFitness.BL.Model
         /// Рост
         /// </summary>
         public double Height { get; set; }
+
+        public virtual ICollection<Eating> Eatings { get; set; }
+        public virtual ICollection<Exercise> Exercises { get; set; }
 
         public int Age { get { return DateTime.Now.Year - BirthDate.Year; } }
 
@@ -67,17 +69,17 @@ namespace CodeBlogFitness.BL.Model
             }
             if(birthDate <DateTime.Parse("01.01.1900") || birthDate>= DateTime.Now)
             {
-                throw new ArgumentNullException("Некорректная дата рождения", nameof(birthDate));
+                throw new ArgumentException("Некорректная дата рождения", nameof(birthDate));
             }
 
             if (weight <=0)
             {
-                throw new ArgumentNullException("Вес не может быть меньше или равно нулю ", nameof(weight));
+                throw new ArgumentException("Вес не может быть меньше или равно нулю ", nameof(weight));
             }
 
             if (height <= 0)
             {
-                throw new ArgumentNullException("Рост не может быть меньше либо равен нулю", nameof(height));
+                throw new ArgumentException("Рост не может быть меньше либо равен нулю", nameof(height));
             }
 
             #endregion
@@ -85,9 +87,11 @@ namespace CodeBlogFitness.BL.Model
             Gender = gender;
             BirthDate = birthDate;
             Weight = weight;
-            Height = height;
-                
+            Height = height;                
         }
+
+        public User() { }
+
         public User(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
